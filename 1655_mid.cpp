@@ -1,32 +1,36 @@
 #include <iostream>
 #include <queue>
+#include <vector>
 
 using namespace std;
 
 int N;
-priority_queue<int> pq;
+vector<int> v;
+priority_queue<int> maxHeap;
+priority_queue<int, vector<int>, greater<int>> minHeap;
+//greater<int> : 내림차순, less<int> : 오름차순
+//default는 less<int>임
 
-void game() {
-    int size = pq.size() / 2;
-
-    if (size < 1) {
-        cout << pq.top() << '\n';
-        return;
-    }
-    else {
-        vector<int> v; //짝수일 때 중간값을 찾기 위한 벡터
-        for (int i = 0; i < size; i++) {
-            v.push_back(pq.top());
-            pq.pop();
-        }
+void Game() {
+    for (int i = 0; i < N; i++) {
+        if (maxHeap.size() > minHeap.size())        //maxHeap이 더 크다면 minHeap에 push - 규칙 1
+            minHeap.push(v[i]);
+        else
+            maxHeap.push(v[i]);
         
-        cout << pq.top() << '\n';
-
-        for (int i = 0; i < size; i++) {
-            pq.push(v[i]);
+        if (!maxHeap.empty() && !minHeap.empty()) {
+            if (maxHeap.top() > minHeap.top()) {    //maxHeap의 top이 더 크다면 swap - 규칙 2
+                int maxTop = maxHeap.top();
+                int minTop = minHeap.top();
+                maxHeap.pop();
+                minHeap.pop();
+                maxHeap.push(minTop);
+                minHeap.push(maxTop);
+            }
         }
-    }
 
+        cout << maxHeap.top() << '\n';
+    }
 }
 
 int main(void) {
@@ -40,9 +44,10 @@ int main(void) {
     for (int i = 0; i < N; i++) {
         int num;
         cin >> num;
-        pq.push(num);
-        game();
+        v.push_back(num);
     }
+
+    Game();
 
     return 0;
 }
