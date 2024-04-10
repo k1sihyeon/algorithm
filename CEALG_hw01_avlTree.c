@@ -145,7 +145,8 @@ AVLNode* avl_delete(AVLNode** root, int key) {
 	}
 
 	if (key == (*root)->data) {
-		if (((*root)->left_child == NULL) && ((*root)->right_child == NULL)) {	//루트이자 말단노드
+        //말단노드
+		if (((*root)->left_child == NULL) && ((*root)->right_child == NULL)) {	
 			free(*root);
 			*root = NULL;
 			
@@ -203,16 +204,15 @@ AVLNode* avl_delete(AVLNode** root, int key) {
  *******************************************/
 int main(void) {
     AVLNode* root = NULL;
-    int key = -1;
 
-    printf("Assignment #1. �й�, �̸� \n\n");
+    printf("Assignment #1. AVL 트리의 삭제 연산 20190231 김시현 \n\n");
 	int arr[] = {8, 9, 10, 2, 1, 5, 3, 6, 4, 7, 11, 12};
 
 	for (int i = 0; i < 12; i++) {
 		avl_add(&root, arr[i]);
 	}
 
-	printf("Init AVL Tree\n");
+	printf("\nInitial AVL Tree\n");
 	avl_search(root, 12);
 
 	printf("\nDelete 12\n");
@@ -223,9 +223,10 @@ int main(void) {
     avl_add(&root, 20);
 	avl_search(root, 20);
 
-	printf("Add 12\n");
-	avl_add(&root, 12);
-	avl_search(root, 12);
+    for (int i = 0; i < 12; i++) {
+        printf("\nSearch %d\n", arr[i]);
+        avl_search(root, arr[i]);
+    }
 
 	printf("\nDelete 20\n");
 	avl_delete(&root, 20);
