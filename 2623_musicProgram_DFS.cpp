@@ -8,26 +8,28 @@ using namespace std;
 int N, M;
 
 vector<int> graph[1001];
-int visited[1001];
+bool visited[1001];
+bool finished[1001];
+
 bool isCycle = false;
 
 vector<int> result;
 
 void DFS(int node) {
-    visited[node] += 1;
-
-    if (visited[node] >= 2) {
-        isCycle = true;
-        return;
-    }
+    visited[node] = true;
 
     for (int i = 0; i < graph[node].size(); i++) {
         int next = graph[node][i];
 
-        DFS(next);
+        if (!visited[next])
+            DFS(next);
+        
+        else if (!finished[next]) // 재방문 -> cycle
+            isCycle = true;
     }
 
     result.push_back(node);
+    finished[node] = true;
 }
 
 int main(void) {
@@ -36,7 +38,8 @@ int main(void) {
     cout.tie(NULL);
 
     //init
-    memset(visited, 0, sizeof(visited));
+    memset(visited, false, sizeof(visited));
+    memset(finished, false, sizeof(finished));
 
     //input
     cin >> N >> M;
@@ -58,7 +61,7 @@ int main(void) {
 
     //DFS
     for (int i = 1; i <= N; i++) {
-        if (visited[i] == 0) {
+        if (!visited[i]) {
             DFS(i);
         }
     }

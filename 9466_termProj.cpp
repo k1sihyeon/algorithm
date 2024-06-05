@@ -65,5 +65,6 @@ void DFS(int cur) {
         }
     }
 
+    // DFS 종료
     finished[cur] = true;
 }

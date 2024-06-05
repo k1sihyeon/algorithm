@@ -75,7 +75,7 @@ void topologicalSort() {
         result.push_back(node);
 
         for (int i = 0; i < graph[node].size(); i++) {
-            // 해당 노드의 진출 노드(next)들의 진입차수를 1씩 감소
+            // 해당 노드의 진출 노드(next)들의 진입차수를 1씩 감소 -> 진출 간선 삭제
             int next = graph[node][i];
             indegree[next] -= 1;
 
