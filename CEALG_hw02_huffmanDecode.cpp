@@ -48,7 +48,11 @@ int OpenHuffmanTable(string fileName, vector<pair<char, string>>& huffmanCode) {
 
     char data;
     string code;
-    while (inputFile >> data >> code) {
+    string line;
+    while (getline(inputFile, line)) {
+        data = line[0];
+        code = line.substr(2);
+
         huffmanCode.push_back(make_pair(data, code));
         cout << data << " : " << code << endl;
     }
