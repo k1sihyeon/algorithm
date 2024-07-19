@@ -2,14 +2,16 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
 
 using namespace std;
 
 int T;
 vector<char> cmdv;
-vector<string> arrv;
+//vector<string> arrv;
+deque<string> deqs;
 
-void printArr(vector<string> v) {
+void printArr(deque<string> v) {
     cout << "[";
 
     for (int i = 0; i < (int)v.size(); i++) {
@@ -42,7 +44,7 @@ int main(void) {
 
     for (int i = 0; i < T; i++) {
         cmdv.clear();
-        arrv.clear();
+        deqs.clear();
 
         cmd.clear();
         arr.clear();
@@ -61,52 +63,50 @@ int main(void) {
         string tmp = "";
 
         for (int i = 0; i < (int)arr.size(); i++) {
-            
-            if ((arr[i] >= '0') && (arr[i] <= '9'))
-                tmp += arr[i];
 
-            else if (arr[i] == '[')
+            if (arr[i] == '[')
                 continue;
+            
+            else if ((arr[i] >= '0') && (arr[i] <= '9'))
+                tmp.push_back(arr[i]);
 
             else if ((arr[i] == ',') || (arr[i] == ']')) {
                 if (!tmp.empty()) {
-                    arrv.push_back(tmp);
-                    tmp = "";
+                    deqs.push_back(tmp);
+                    tmp.clear();
                 }
-                
             }                
         }
 
         for (int i = 0; i < (int)cmdv.size(); i++) {
             if (cmd[i] == 'R') {
-                //reverse(arrv.begin(), arrv.end());
                 dir = !dir;
 
-                if (n == 1 && i == 0) {
-                    printArr(arrv);
-                    goto nextTestCase;
-                }
-                    
+                //      ?
+                // if (n == 1 && i == 0) {
+                //     printArr(arrv);
+                //     goto nextTestCase;
+                // } 
             }
 
             else if (cmd[i] == 'D') {
-                if (arrv.empty() || n == 0) {
+                if (deqs.empty() || n == 0) {
                     cout << "error" << '\n';
                     goto nextTestCase;
                 }
                 else {
                     if (dir)
-                        arrv.erase(arrv.begin());
+                        deqs.pop_front();
                     else
-                        arrv.erase(arrv.end());
+                        deqs.pop_back();
                 } 
             }
         }
 
         if (!dir)
-            reverse(arrv.begin(), arrv.end());
+            reverse(deqs.begin(), deqs.end());
 
-        printArr(arrv);
+        printArr(deqs);
 
         nextTestCase:;
     }
