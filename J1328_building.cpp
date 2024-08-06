@@ -14,7 +14,7 @@ int main(void) {
     int N;
     cin >> N;
 
-    vector<int> ans(N+1, 0);
+    vector<int> ans(N, 0);
 
     //input
     for (int i = 0; i < N; i++) {
