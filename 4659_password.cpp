@@ -83,7 +83,7 @@ bool isOver3InRow(string &str) {
 }
 
 bool isDouble(string &str) {
-    for (int i = 1; i < str.length(); i++) {
+    for (int i = 1; i < (int)str.length(); i++) {
         if (str[i - 1] == str[i]) {
             if ((str[i] == 'e') || (str[i] == 'o')) {
                 return false;
