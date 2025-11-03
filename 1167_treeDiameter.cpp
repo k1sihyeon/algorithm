@@ -5,9 +5,10 @@
 using namespace std;
 
 int V;
-//int map[100001][100001] = {0, };
-vector<pair<int, int>> tree[100001];
-bool visited[100001];
+
+vector<vector<pair<int, int>>> tree;
+vector<bool> visited;
+
 int maxDist = 0;
 int maxNode = 0;
 
@@ -22,15 +23,14 @@ void dfs(int node, int dist) {
         maxNode = node;
     }
 
-    for (int i = 0; i < tree[node].size(); i++) {
-        int nNode = tree[node][i].first;
-        int nDist = tree[node][i].second;
+    for (const auto &next : tree[node]) {
+        int nNode = next.first;
+        int nDist = next.second;
 
         if (nNode != 0 && !visited[nNode]) {
             dfs(nNode, dist + nDist);
         }
     }
-    
 }
 
 int main(void) {
@@ -38,10 +38,12 @@ int main(void) {
     cin.tie(NULL);
     cout.tie(NULL);
 
-    memset(visited, false, sizeof(visited));
-
     //input
     cin >> V;
+    
+    tree.assign(V + 1, vector<pair<int, int>>());
+    visited.assign(V + 1, false);
+
     for (int i = 0; i < V; i++) {
         int node;
         cin >> node;
@@ -61,7 +63,7 @@ int main(void) {
     //dfs
     dfs(1, 0);
 
-    memset(visited, false, sizeof(visited));
+    visited.assign(V + 1, false);
     maxDist = 0;
 
     dfs(maxNode, 0);
